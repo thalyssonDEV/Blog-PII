@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social IFPI</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <div id="container">
+        <header>
+            <h1>Social IFPI</h1>
+            <p>Bem-vindo ao blog de tecnologia e inovação do IFPI</p>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Portfólio</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section id="formulario">
+                
+                <div class = "campos">
+                    <h2>Nova Postagem</h2>
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                    <br>
+                    <label for="conteudo">Conteúdo:</label>
+                    <textarea id="conteudo" name="conteudo" required></textarea>
+                    <br>
+                    <button id="botaoNovaPostagem">Incluir Postagem</button>
+                </div>
+                
+            </section>
+
+            <section id="postagens">
+                <!-- As postagens serão inseridas aqui dinamicamente -->
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Social IFPI. Todos os direitos reservados.</p>
+            <p>Feito com ♥ pela equipe do IFPI.</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

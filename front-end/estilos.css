@@ -1,0 +1,231 @@
+/* Variáveis de cor */
+:root {
+    --cor-principal: #1A1A1A; /* Cinza escuro quase preto */
+    --cor-secundaria: #333333; /* Cinza escuro */
+    --cor-fundo: #121212; /* Preto para o fundo */
+    --cor-texto: #EAEAEA; /* Cinza claro para o texto */
+    --cor-texto-secundario: #CCCCCC; /* Cinza um pouco mais escuro para textos secundários */
+    --cor-borda: #444444; /* Cinza escuro para bordas */
+    --cor-hover: #555555; /* Cinza intermediário para efeitos hover */
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--cor-principal);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin-top: 5px;
+    font-size: 1.2rem;
+    color: var(--cor-texto-secundario);
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 10px 0;
+    margin-top: 15px;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: var(--cor-hover);
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section#formulario {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    background-color: var(--cor-secundaria);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.campos h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: var(--cor-texto-secundario);
+}
+
+.campos label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--cor-texto-secundario);
+}
+
+.campos input, .campos textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: var(--cor-principal);
+    color: var(--cor-texto);
+}
+
+.campos button {
+    padding: 10px 20px;
+    background-color: var(--cor-principal);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.campos button:hover {
+    background-color: var(--cor-hover);
+}
+
+section#postagens article {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    background-color: var(--cor-secundaria);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+section#postagens article h2 {
+    font-size: 1.75rem;
+    margin-bottom: 10px;
+    color: var(--cor-texto);
+}
+
+section#postagens article p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: var(--cor-texto-secundario);
+}
+
+section#postagens article .data {
+    font-size: 0.875rem;
+    color: var(--cor-texto-secundario);
+    text-align: right;
+}
+
+section#postagens article button {
+    padding: 5px 10px;
+    background-color: var(--cor-principal);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+section#postagens article button:hover {
+    background-color: var(--cor-hover);
+}
+
+footer {
+    background-color: var(--cor-principal);
+    color: #fff;
+    text-align: center;
+    padding: 20px 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin-bottom: 10px;
+    }
+
+    main {
+        padding: 0 10px;
+    }
+
+    .campos input, .campos textarea {
+        font-size: 0.9rem;
+    }
+
+    section#postagens article h2 {
+        font-size: 1.5rem;
+    }
+
+    section#postagens article p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .campos input, .campos textarea {
+        font-size: 0.8rem;
+    }
+
+    section#postagens article h2 {
+        font-size: 1.25rem;
+    }
+
+    section#postagens article p {
+        font-size: 0.85rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin-bottom: 5px;
+    }
+}
