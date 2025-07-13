@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo do Usuário
+model User {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  nome          String?
+  senha_hash    String
+  foto_url      String?
+  createdAt     DateTime @default(now())
+
+  // Relação: UM usuário pode ter VÁRIOS posts.
+  posts         Post[]
+  // Relação: UM usuário pode ter VÁRIOS comentários.
+  comentarios   Comment[]
+
+  @@map("usuario")
+}
+
+// Modelo do Post
+model Post {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  conteudo    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // --- Chave Estrangeira para o autor ---
+  autorId     Int      @map("autor_id")
+  // Relação: Muitos posts pertencem a UM usuário (autor).
+  // 'fields' aponta para a chave estrangeira nesta tabela.
+  // 'references' aponta para a chave primária na tabela User.
+  autor       User     @relation(fields: [autorId], references: [id])
+
+  // Relação: UM post pode ter VÁRIOS comentários.
+  comentarios Comment[]
+
+  @@map("post")
+}
+
+// Modelo do Comentário
+model Comment {
+  id        Int      @id @default(autoincrement())
+  texto     String
+  createdAt DateTime @default(now())
+
+  // --- Chave Estrangeira para o post ---
+  postId    Int      @map("post_id")
+  // Relação: Muitos comentários pertencem a UM post.
+  post      Post     @relation(fields: [postId], references: [id])
+
+  // --- Chave Estrangeira para o autor do comentário ---
+  autorId   Int      @map("autor_id")
+  // Relação: Muitos comentários pertencem a UM usuário (autor).
+  autor     User     @relation(fields: [autorId], references: [id])
+
+  @@map("comentario")
+}
