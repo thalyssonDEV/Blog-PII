@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Meu App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css"> <script src="/js/login.js" defer></script>
+</head>
+<body class="bg-slate-100 font-sans flex items-center justify-center min-h-screen">
+    <main class="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
+        <div class="flex justify-center mb-6">
+            </div>
+        <h1 class="text-3xl font-bold text-center mb-2 text-slate-800">Bem-vindo!</h1>
+        <p class="text-center text-slate-500 mb-8">Faça login para continuar</p>
+        <form id="login-form" novalidate>
+            <div class="mb-4">
+                <label for="email" class="block text-slate-700 text-sm font-bold mb-2">E-mail</label>
+                <input type="email" id="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div class="mb-6">
+                <label for="senha" class="block text-slate-700 text-sm font-bold mb-2">Senha</label>
+                <input type="password" id="senha" name="senha" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Entrar</button>
+        </form>
+        <p class="text-center text-sm text-slate-600 mt-6">
+            Não tem uma conta? 
+            <a href="/registro.html" class="font-medium text-indigo-600 hover:text-indigo-500">Registre-se</a>
+        </p>
+    </main>
+    <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-50"></div>
+</body>
+</html>

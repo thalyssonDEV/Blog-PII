@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/registro.js" defer></script>
+</head>
+<body class="bg-slate-100 font-sans flex items-center justify-center min-h-screen py-8">
+
+    <main class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center mb-6 text-slate-800">Crie sua Conta</h1>
+        
+        <div class="flex justify-center mb-6">
+            <img id="foto-preview" class="w-28 h-28 rounded-full border-4 border-slate-200 bg-slate-200 object-cover" src="/assets/default-avatar.svg" alt="Foto de Perfil">
+        </div>
+
+        <form id="registro-form" novalidate>
+            <div class="mb-4">
+                <label for="foto" class="block text-slate-700 text-sm font-bold mb-2">Foto de Perfil (Opcional)</label>
+                <input type="file" id="foto" name="foto" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+            </div>
+
+            <div class="mb-4">
+                <label for="nome" class="block text-slate-700 text-sm font-bold mb-2">Nome Completo</label>
+                <input type="text" id="nome" name="nome" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-slate-700 text-sm font-bold mb-2">E-mail</label>
+                <input type="email" id="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div class="mb-6">
+                <label for="senha" class="block text-slate-700 text-sm font-bold mb-2">Senha</label>
+                <input type="password" id="senha" name="senha" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+
+            <div class="mb-6">
+                <label for="confirmarSenha" class="block text-slate-700 text-sm font-bold mb-2">Confirmar Senha</label>
+                <input type="password" id="confirmarSenha" name="confirmarSenha" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            
+            <div class="mt-8">
+                <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">Criar Conta</button>
+            </div>
+        </form>
+        <p id="message" class="text-center mt-4 font-bold"></p>
+        <p class="text-center text-sm text-slate-600 mt-6">
+            Já tem uma conta? 
+            <a href="/login.html" class="font-medium text-indigo-600 hover:text-indigo-500">Faça login</a>
+        </p>
+    </main>
+
+    <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-50"></div>
+
+</body>
+</html>

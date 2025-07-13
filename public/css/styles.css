@@ -1,0 +1,30 @@
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* As classes de animação que nosso JavaScript usa 
+  para aplicar os keyframes que definimos acima.
+*/
+.toast-animate-in {
+    animation: slideInRight 0.25s ease-out forwards;
+}
+
+.toast-animate-out {
+    animation: fadeOut 0.25s ease-in forwards;
+}
