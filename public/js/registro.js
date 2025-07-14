@@ -1,34 +1,3 @@
-// --- FUNÇÃO REUTILIZÁVEL PARA CRIAR NOTIFICAÇÕES (TOASTS) ---
-function showToast(message, type = 'error') {
-    const container = document.getElementById('toast-container');
-    
-    // Cria o elemento do toast
-    const toast = document.createElement('div');
-    
-    // Define as classes de estilo com Tailwind CSS
-    const baseClasses = 'p-4 rounded-lg shadow-lg text-white font-bold text-sm';
-    const successClasses = 'bg-green-500';
-    const errorClasses = 'bg-red-500';
-    
-    toast.className = `${baseClasses} ${type === 'success' ? successClasses : errorClasses} toast-animate-in`;
-    toast.textContent = message;
-    
-    // Adiciona o toast ao contêiner
-    container.appendChild(toast);
-    
-    // Remove o toast depois de alguns segundos
-    setTimeout(() => {
-        // Adiciona a animação de saída
-        toast.classList.add('toast-animate-out');
-        
-        // Espera a animação de saída terminar para remover o elemento do DOM
-        toast.addEventListener('animationend', () => {
-            toast.remove();
-        });
-    }, 3000); // O toast ficará visível por 4 segundos
-}
-
-
 // --- LÓGICA DO FORMULÁRIO (AGORA USANDO A FUNÇÃO showToast) ---
 
 const form = document.getElementById('registro-form');
@@ -55,6 +24,25 @@ form.addEventListener('submit', async (event) => {
     // 1. Validação de campos obrigatórios
     if (!nome || !email || !senha) {
         showToast('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    // Adicionamos a verificação de tamanho mínimo e máximo aqui
+    if (nome.length < 3 || nome.length > 15) {
+        showToast('O nome de usuário deve ter entre 3 e 20 caracteres.');
+        return;
+    }
+
+    // 1. Nova validação: Verifica se há espaços no nome de usuário
+    if (nome.includes(' ')) {
+        showToast('O nome de usuário não pode conter espaços.');
+        return;
+    }
+
+    // 2. Nova validação: Verifica se os caracteres são permitidos
+    const nomeUsuarioRegex = /^[a-zA-Z0-9_@.-]+$/;
+    if (!nomeUsuarioRegex.test(nome)) {
+        showToast('O nome de usuário contém caracteres inválidos (não são permitidos emojis ou símbolos especiais).');
         return;
     }
 
@@ -102,6 +90,11 @@ form.addEventListener('submit', async (event) => {
         if (response.ok) {
             form.reset();
             fotoPreviewElement.src = '/assets/default-avatar.svg';
+
+            setTimeout(() => {
+                window.location.href = '/login.html'; 
+            }, 1500); 
+
         }
     } catch (error) {
          showToast('Erro de conexão. Tente novamente.');

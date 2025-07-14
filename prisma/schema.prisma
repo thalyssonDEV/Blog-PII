@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,35 +12,34 @@ datasource db {
 
 // Modelo do Usuário
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
-  nome          String?
-  senha_hash    String
-  foto_url      String?
-  createdAt     DateTime @default(now())
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  nome        String?
+  senha_hash  String
+  foto_url    String?
+  createdAt   DateTime  @default(now())
 
   // Relação: UM usuário pode ter VÁRIOS posts.
-  posts         Post[]
+  posts       Post[]
   // Relação: UM usuário pode ter VÁRIOS comentários.
-  comentarios   Comment[]
+  comentarios Comment[]
 
   @@map("usuario")
 }
 
 // Modelo do Post
 model Post {
-  id          Int      @id @default(autoincrement())
-  titulo      String
-  conteudo    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  conteudo  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // --- Chave Estrangeira para o autor ---
-  autorId     Int      @map("autor_id")
+  autorId   Int    @map("autor_id")
   // Relação: Muitos posts pertencem a UM usuário (autor).
-  // 'fields' aponta para a chave estrangeira nesta tabela.
-  // 'references' aponta para a chave primária na tabela User.
-  autor       User     @relation(fields: [autorId], references: [id])
+  // Se o autor for deletado, seus posts também serão (em cascata).
+  autor     User   @relation(fields: [autorId], references: [id], onDelete: Cascade)
 
   // Relação: UM post pode ter VÁRIOS comentários.
   comentarios Comment[]
@@ -58,14 +54,16 @@ model Comment {
   createdAt DateTime @default(now())
 
   // --- Chave Estrangeira para o post ---
-  postId    Int      @map("post_id")
+  postId    Int    @map("post_id")
   // Relação: Muitos comentários pertencem a UM post.
-  post      Post     @relation(fields: [postId], references: [id])
+  // Se o post for deletado, seus comentários também serão.
+  post      Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   // --- Chave Estrangeira para o autor do comentário ---
-  autorId   Int      @map("autor_id")
+  autorId   Int    @map("autor_id")
   // Relação: Muitos comentários pertencem a UM usuário (autor).
-  autor     User     @relation(fields: [autorId], references: [id])
+  // Se o autor for deletado, seus comentários também serão.
+  autor     User   @relation(fields: [autorId], references: [id], onDelete: Cascade)
 
   @@map("comentario")
 }
