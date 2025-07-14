@@ -1,26 +1,17 @@
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
 
-const uploadPath = path.resolve(__dirname, '..', '..', 'public', 'imagens');
+// 1. Usa o armazenamento em memória
+// O arquivo ficará disponível em req.file.buffer
+const storage = multer.memoryStorage();
 
-// Garante que o diretório de upload exista
-if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true });
-}
+// 2. Define limites para o upload para segurança
+const limits = {
+    fileSize: 5 * 1024 * 1024, // Limite de 5 MB por arquivo
+};
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        // Salva o arquivo com um nome temporário único
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const extension = path.extname(file.originalname);
-        cb(null, uniqueSuffix + extension);
-    }
+const upload = multer({
+    storage: storage,
+    limits: limits,
 });
-
-const upload = multer({ storage: storage });
 
 export default upload;

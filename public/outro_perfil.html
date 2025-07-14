@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de Usuário</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Ordem correta dos scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/utils.js" defer></script>
+    <script src="/js/logout.js" defer></script>
+    <script src="/js/outro_perfil.js" defer></script>
+</head>
+<body class="bg-slate-100 font-sans">
+    <nav class="bg-white shadow p-4 flex justify-between items-center">
+        <a href="/home.html" class="font-medium text-indigo-600 hover:underline">&larr; Voltar para o Feed</a>
+        <div class="flex items-center space-x-6">
+            <a href="/perfil.html" class="font-medium text-slate-700 hover:text-indigo-600">Meu Perfil</a>
+            <button id="btn-logout" class="flex items-center space-x-2 text-red-500 hover:text-red-700"><span>Logout</span></button>
+        </div>
+    </nav>
+    <main class="container mx-auto mt-8 mb-12 max-w-3xl px-4">
+        <!-- As informações do perfil serão inseridas aqui -->
+        <section id="perfil-info-container" class="bg-white p-8 rounded-xl shadow-lg flex flex-col sm:flex-row items-center text-center sm:text-left"></section>
+        
+        <!-- Seção de Posts -->
+        <section class="mt-8">
+            <h2 class="text-2xl font-bold mb-4 text-slate-700">Posts de <span id="nome-usuario-titulo"></span></h2>
+            <div id="posts-usuario-container" class="space-y-4"></div>
+            <!-- Botão "Ler mais" para posts aparecerá aqui -->
+            <div id="ler-mais-posts-container" class="mt-6 text-center"></div>
+        </section>
+    </main>
+    <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-50"></div>
+</body>
+</html>
