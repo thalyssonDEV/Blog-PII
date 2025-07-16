@@ -36,6 +36,27 @@
         </section>
     </main>
 
+    <section id="comentarios-secao" class="mt-12">
+        <h2 class="text-2xl font-bold mb-4 text-slate-700">Comentários</h2>
+
+        <div id="form-comentario-container" class="hidden mb-6">
+            <textarea id="textarea-comentario" class="w-full p-2 border rounded-lg" rows="4" placeholder="Escreva seu comentário..." maxlength="300"></textarea>
+            <div class="flex justify-end gap-2 mt-2">
+                <button id="btn-cancelar-comentario" class="bg-slate-200 text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-300">Cancelar</button>
+                <button id="btn-enviar-comentario" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">Comentar</button>
+            </div>
+        </div>
+
+        <div id="btn-adicionar-container" class="mb-6">
+            <button id="btn-adicionar-comentario" class="bg-white text-slate-600 font-semibold py-2 px-4 border border-slate-300 rounded-lg hover:bg-slate-50">Adicionar um comentário</button>
+        </div>
+
+        <div id="comentarios-container" class="space-y-4">
+            </div>
+    </section>
+
+    
+
     <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-50"></div>
 </body>
 </html>

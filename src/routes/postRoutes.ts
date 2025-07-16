@@ -83,6 +83,14 @@ router.get('/posts/:postId', authMiddleware, async (req: Request, res: Response)
                         nome: true,
                         foto_url: true
                     }
+                },
+                comentarios: {
+                    orderBy: { createdAt: 'asc' },
+                    include: {
+                        autor: { // Para cada comentário, inclui os dados do autor
+                            select: { nome: true, foto_url: true }
+                        }
+                    }
                 }
             }
         });

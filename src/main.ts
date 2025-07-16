@@ -1,5 +1,6 @@
 // 1. Validação das variáveis de ambiente
 import { env } from './config/env';
+import commentRoutes from './routes/commentRoutes';
 
 import express from 'express';
 import userRoutes from './routes/userRoutes';
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/api', userRoutes);
 app.use('/api', postRoutes);
+app.use('/api', commentRoutes);
 
 // Função assíncrona para iniciar o servidor
 const startServer = async () => {
