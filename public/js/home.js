@@ -50,8 +50,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             const linkPerfil = ehMeuPerfil ? '/perfil.html' : `/outro_perfil.html?id=${post.autor.id}`;
             // --- FIM DA LÓGICA CONDICIONAL ---
 
+            // --- LÓGICA PARA TRUNCAR O CONTEÚDO ---
+            const limiteCaracteres = 500;
+            let conteudoExibido = post.conteudo;
+            if (post.conteudo.length > limiteCaracteres) {
+                conteudoExibido = post.conteudo.substring(0, limiteCaracteres) + '...';
+            }
+
             return `
-            <article class="bg-white p-6 rounded-lg shadow">
+            <article class="bg-white p-6 rounded-lg shadow flex flex-col">
                 <div class="flex items-center mb-4">
                     <a href="${linkPerfil}" class="block">
                         <img src="${post.autor.foto_url || '/assets/default-avatar.svg'}" alt="Foto de ${post.autor.nome}" class="w-12 h-12 rounded-full mr-4 object-cover cursor-pointer">
@@ -62,7 +69,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 </div>
                 <h2 class="text-2xl font-bold mb-2">${post.titulo}</h2>
-                <p class="text-slate-700 break-words">${post.conteudo}</p>
+                <p class="text-slate-700 break-words flex-grow">${conteudoExibido}</p>
+                
+                <div class="mt-4 pt-4 border-t border-slate-200">
+                    <a href="/post.html?id=${post.id}" class="font-medium text-indigo-600 hover:text-indigo-700 flex items-center">
+                        Ver post completo
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </a>
+                </div>
             </article>
             `;
         }).join('');
