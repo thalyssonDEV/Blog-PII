@@ -67,4 +67,36 @@ router.post('/posts', authMiddleware, regrasValidacaoPost, async (req: AuthReque
     }
 });
 
+router.get('/posts/:postId', authMiddleware, async (req: Request, res: Response) => {
+    try {
+        const postId = parseInt(req.params.postId, 10);
+        if (isNaN(postId)) {
+            return res.status(400).json({ mensagem: "ID de post inválido." });
+        }
+
+        const post = await prisma.post.findUnique({
+            where: { id: postId },
+            include: {
+                autor: { // Inclui os dados do autor do post
+                    select: {
+                        id: true,
+                        nome: true,
+                        foto_url: true
+                    }
+                }
+            }
+        });
+
+        if (!post) {
+            return res.status(404).json({ mensagem: "Post não encontrado." });
+        }
+
+        res.status(200).json(post);
+
+    } catch (error) {
+        console.error("Erro ao buscar o post:", error);
+        res.status(500).json({ mensagem: "Erro interno ao buscar o post." });
+    }
+});
+
 export default router;
