@@ -32,14 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             return `
-            <article class="bg-white p-6 rounded-lg shadow flex flex-col">
-                <h2 class="text-xl font-bold mb-2">${post.titulo}</h2>
-                <p class="text-slate-700 break-words flex-grow">${conteudoExibido}</p>
+            <article id="post-${post.id}" class="bg-white p-6 rounded-lg shadow flex flex-col relative">
+                <button data-post-id="${post.id}" class="btn-deletar-post absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                </button>
+                <h2 class="text-xl font-bold mb-2 pr-8">${post.titulo}</h2>
+                <p class="text-slate-700 break-words flex-grow">${post.conteudo.substring(0, 500)}...</p>
                 <div class="mt-4 pt-4 border-t border-slate-200">
-                    <a href="/post.html?id=${post.id}" class="font-medium text-indigo-600 hover:text-indigo-700 flex items-center">
-                        Ver post completo
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-                    </a>
+                    <a href="/post.html?id=${post.id}" class="font-medium text-indigo-600 hover:text-indigo-700">Ver post completo</a>
                 </div>
             </article>`;
         }).join('');
@@ -110,6 +110,63 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnCancelarExclusao = document.getElementById('btn-cancelar-exclusao');
         const btnConfirmarExclusao = document.getElementById('btn-confirmar-exclusao');
         const inputSenha = document.getElementById('input-senha-confirmacao');
+        const modal = document.getElementById('modal-confirmar-exclusao');
+        const btnModalCancelar = document.getElementById('btn-modal-cancelar');
+        const btnModalConfirmar = document.getElementById('btn-modal-confirmar');
+
+        const abrirModalDelecao = (postId) => {
+            // Define qual post será deletado quando o botão "Sim" for clicado
+            if(btnModalConfirmar) btnModalConfirmar.dataset.postId = postId;
+            if(modal) modal.classList.remove('hidden');
+        };
+
+        const fecharModalDelecao = () => {
+            if(modal) modal.classList.add('hidden');
+            if(btnModalConfirmar) btnModalConfirmar.dataset.postId = '';
+        };
+
+        // Adiciona o listener para fechar o modal
+        if(btnModalCancelar) btnModalCancelar.addEventListener('click', fecharModalDelecao);
+
+        // Adiciona o listener para confirmar a deleção
+        if(btnModalConfirmar) {
+            btnModalConfirmar.addEventListener('click', async () => {
+                const postId = btnModalConfirmar.dataset.postId;
+                if (!postId) return;
+
+                try {
+                    const response = await fetch(`/api/posts/${postId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.mensagem);
+                    }
+
+                    // Remove o post da tela e fecha o modal
+                    document.getElementById(`post-${postId}`).remove();
+                    fecharModalDelecao();
+                    showToast(result.mensagem, 'success');
+
+                } catch (error) {
+                    showToast(error.message, 'error');
+                }
+            });
+        }
+
+        // --- ADICIONA EVENTO NO CONTAINER DOS POSTS (DELEGAÇÃO) ---
+        const postsContainer = document.getElementById('meus-posts-container');
+        if(postsContainer) {
+            postsContainer.addEventListener('click', (event) => {
+                const deleteButton = event.target.closest('.btn-deletar-post');
+                if (deleteButton) {
+                    const postId = deleteButton.dataset.postId;
+                    abrirModalDelecao(postId);
+                }
+            });
+        }
 
         if (btnAlterarFoto && inputFotoUpload) {
             btnAlterarFoto.addEventListener('click', () => inputFotoUpload.click());
@@ -211,8 +268,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             setupEventListeners();
         } catch (error) {
-            console.error(error);
-            document.querySelector('main').innerHTML = '<p class="text-center text-red-500">Não foi possível carregar seu perfil.</p>';
+            console.error("Falha ao carregar perfil, redirecionando para login:", error);
+            // 1. Remove o token inválido que causou o erro
+            localStorage.removeItem('authToken');
+            
+            // 2. Redireciona o usuário para a página de login
+            window.location.href = '/login.html';
         }
     };
 

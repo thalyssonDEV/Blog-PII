@@ -78,10 +78,10 @@ router.post('/login', regrasValidacaoLogin, async (req: Request, res: Response) 
         const token = jwt.sign(
             { userId: usuario.id },
             env.JWT_SECRET as string,
-            { expiresIn: '8h' }
+            { expiresIn: '1h' }
         );
 
-        res.status(200).json({ mensagem: 'Login bem-sucedido!', token, usuario });
+        res.status(200).json({ mensagem: 'Login Bem-Sucedido!', token, usuario });
 
     } catch (error: any) {
         // Captura os erros lançados pelo serviço
