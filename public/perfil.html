@@ -60,5 +60,16 @@
     
     <!-- Contêiner para as notificações (toasts) -->
     <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-50"></div>
+
+    <div id="modal-confirmar-exclusao" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white p-6 rounded-lg shadow-xl text-center max-w-sm">
+        <h3 class="text-lg font-bold text-slate-800">Deseja apagar seu post?</h3>
+        <p class="text-sm text-slate-600 mt-2">Esta ação não pode ser desfeita. Todos os comentários relacionados também serão apagados.</p>
+        <div class="flex gap-4 mt-6">
+            <button id="btn-modal-cancelar" class="flex-1 bg-slate-200 text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-300">Cancelar</button>
+            <button id="btn-modal-confirmar" class="flex-1 bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Sim, apagar</button>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

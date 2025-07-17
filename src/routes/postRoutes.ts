@@ -107,4 +107,29 @@ router.get('/posts/:postId', authMiddleware, async (req: Request, res: Response)
     }
 });
 
+
+// --- NOVA ROTA PARA DELETAR UM POST ---
+router.delete('/posts/:postId', authMiddleware, async (req: AuthRequest, res: Response) => {
+    const autorId = req.userId;
+    const postId = parseInt(req.params.postId, 10);
+
+    if (!autorId) {
+        return res.status(401).json({ mensagem: 'Usuário não autenticado.' });
+    }
+    if (isNaN(postId)) {
+        return res.status(400).json({ mensagem: 'ID de post inválido.' });
+    }
+
+    try {
+        await postService.deletarPost(postId, autorId);
+        res.status(200).json({ mensagem: 'Post Deletado com Sucesso.' });
+    } catch (error: any) {
+        // Se o erro for de permissão, retorna 403 (Forbidden)
+        if (error.message.includes('Permissão negada')) {
+            return res.status(403).json({ mensagem: error.message });
+        }
+        res.status(500).json({ mensagem: 'Erro interno ao deletar o post.' });
+    }
+});
+
 export default router;
