@@ -23,6 +23,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const postId = urlParams.get('id');
     let comentariosNaTela = [];
 
+    // CÓDIGO NOVO PARA A ROLAGEM SUAVE
+    const verComentariosLink = document.getElementById('ver-comentarios-link');
+    if (verComentariosLink) {
+        verComentariosLink.addEventListener('click', (event) => {
+            // Previne o comportamento padrão do link (o "salto" instantâneo)
+            event.preventDefault(); 
+
+            const comentariosSection = document.getElementById('comentarios');
+            if (comentariosSection) {
+                // Rola a página suavemente até o início da seção de comentários
+                comentariosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
     let meuUserId = null;
     if (token) {
         try {
