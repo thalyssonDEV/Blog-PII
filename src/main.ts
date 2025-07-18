@@ -27,7 +27,7 @@ const startServer = async () => {
 
         // 3. SOMENTE se a conexão for bem-sucedida, inicia o servidor Express
         app.listen(PORT, () => {
-            console.log(`🚀 Servidor rodando na porta ${PORT}`);
+            console.log(`🚀 Servidor rodando na porta ${PORT}, Link para localhost: http://localhost:${PORT}/login.html`);
         });
 
     } catch (error) {
