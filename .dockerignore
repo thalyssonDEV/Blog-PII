@@ -1,0 +1,16 @@
+# Ignora as dependências locais, pois elas serão instaladas dentro do contêiner.
+node_modules
+
+# Ignora o diretório de build, pois ele é gerado dentro do contêiner.
+dist
+
+# Ignora arquivos de log do npm.
+npm-debug.log
+
+# Ignora arquivos de ambiente. Eles devem ser injetados no contêiner
+# em tempo de execução, e não incluídos na imagem.
+.env
+
+# Ignora arquivos específicos do Docker.
+Dockerfile
+.dockerignore
