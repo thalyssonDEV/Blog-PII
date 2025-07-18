@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- Seleção de Elementos ---
+    const hash = window.location.hash;
+
+    if (hash === '#comentarios-secao') {
+        setTimeout(() => {
+            const target = document.querySelector(hash);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 300); // tempo suficiente para a seção carregar
+    }
+
     const postContainer = document.getElementById('post-container');
     const comentariosContainer = document.getElementById('comentarios-container');
     const btnAdicionarComentario = document.getElementById('btn-adicionar-comentario');
@@ -11,11 +21,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('authToken');
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
-
-    // --- VARIÁVEL DE ESTADO PARA OS COMENTÁRIOS ---
     let comentariosNaTela = [];
 
-    // --- PEGANDO ID DO USUÁRIO LOGADO ---
+    // CÓDIGO NOVO PARA A ROLAGEM SUAVE
+    const verComentariosLink = document.getElementById('ver-comentarios-link');
+    if (verComentariosLink) {
+        verComentariosLink.addEventListener('click', (event) => {
+            // Previne o comportamento padrão do link (o "salto" instantâneo)
+            event.preventDefault(); 
+
+            const comentariosSection = document.getElementById('comentarios');
+            if (comentariosSection) {
+                // Rola a página suavemente até o início da seção de comentários
+                comentariosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
     let meuUserId = null;
     if (token) {
         try {
@@ -34,28 +56,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // --- FUNÇÃO PARA RENDERIZAR COMENTÁRIOS ---
     const renderizarTodosOsComentarios = () => {
         comentariosContainer.innerHTML = '';
 
         if (comentariosNaTela.length === 0) {
-            comentariosContainer.innerHTML = '<p class="text-slate-500 text-center">Nenhum comentário ainda. Seja o primeiro a comentar!</p>';
+            comentariosContainer.innerHTML = `
+                <div class="text-center text-slate-500 py-8 italic">
+                    Nenhum comentário ainda. Seja o primeiro a comentar!
+                </div>`;
             return;
         }
 
-        // Ordenar do mais recente para o mais antigo
         comentariosNaTela.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
         comentariosNaTela.forEach(comentario => {
             const comentarioHtml = `
-                <div class="bg-slate-50 p-4 rounded-lg shadow-sm flex items-start space-x-4">
+                <div class="bg-white rounded-lg shadow p-4 mb-4 flex gap-4">
                     <img src="${comentario.autor.foto_url || '/assets/default-avatar.svg'}" alt="Foto de ${comentario.autor.nome}" class="w-10 h-10 rounded-full object-cover">
                     <div class="flex-1">
-                        <div class="flex items-baseline space-x-2">
-                            <p class="font-bold text-slate-800">${comentario.autor.nome}</p>
-                            <p class="text-xs text-slate-500">${new Date(comentario.createdAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}</p>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-semibold text-slate-800">${comentario.autor.nome}</span>
+                            <span class="text-xs text-slate-400">${new Date(comentario.createdAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}</span>
                         </div>
-                        <p class="text-slate-700 mt-1 break-words">${comentario.texto}</p>
+                        <p class="text-slate-700 break-words">${comentario.texto}</p>
                     </div>
                 </div>
             `;
@@ -63,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- FORMULÁRIO DE COMENTÁRIO ---
+    // Formulário
     if (btnAdicionarComentario) {
         btnAdicionarComentario.addEventListener('click', () => {
             formComentarioContainer.classList.remove('hidden');
@@ -96,6 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     },
                     body: JSON.stringify({ texto })
                 });
+
                 const result = await response.json();
                 if (!response.ok) throw new Error(result.mensagem || "Erro ao enviar comentário.");
 
@@ -113,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- CARREGAMENTO DO POST E COMENTÁRIOS ---
+    // Carregando post + comentários
     try {
         const response = await fetch(`/api/posts/${postId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -147,9 +171,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </article>
         `;
 
-        if (post.comentarios && post.comentarios.length > 0) {
-            comentariosNaTela = post.comentarios;
-        }
+        comentariosNaTela = post.comentarios || [];
         renderizarTodosOsComentarios();
 
     } catch (error) {

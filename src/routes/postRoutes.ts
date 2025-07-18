@@ -11,37 +11,51 @@ const postService = new PostService(); // Instancia o serviço de posts
 const regrasValidacaoPost = [
     body('titulo')
         .notEmpty().withMessage('O título é obrigatório.')
-        .isLength({ max: 50 }).withMessage('O título não pode ter mais de 100 caracteres.')
+        .isLength({ max: 50 }).withMessage('O título não pode ter mais de 50 caracteres.')
         .trim().escape(),
     body('conteudo')
         .notEmpty().withMessage('O conteúdo é obrigatório.')
-        .isLength({ max: 1500 }).withMessage('O conteúdo não pode ter mais de 1500 caracteres.')
+        .isLength({ max: 10000 }).withMessage('O conteúdo não pode ter mais de 10000 caracteres.')
         .trim().escape()
 ];
 
-// Rota para buscar TODOS os posts (para o feed principal)
-// Usamos o authMiddleware para proteger esta rota
+// --- ROTA DO FEED ATUALIZADA COM PAGINAÇÃO ---
 router.get('/posts', authMiddleware, async (req: Request, res: Response) => {
     try {
-        const posts = await prisma.post.findMany({
-            // Ordena pelos mais recentes primeiro
-            orderBy: {
-                createdAt: 'desc'
-            },
-            // Inclui os dados do autor de cada post
-            include: {
-                autor: {
-                    select: {
-                        id: true,
-                        nome: true,
-                        foto_url: true
-                    }
-                }
-            }
+        const page = parseInt(req.query.page as string) || 1;
+        const pageSize = 5; // 5 posts por página
+        const skip = (page - 1) * pageSize;
+
+        // Executa duas queries em paralelo: uma para contar o total e outra para buscar os posts da página
+        const [totalPosts, posts] = await prisma.$transaction([
+            prisma.post.count(),
+            prisma.post.findMany({
+                skip: skip,
+                take: pageSize,
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                include: {
+                    autor: {
+                        select: {
+                            id: true,
+                            nome: true,
+                            foto_url: true,
+                        },
+                    },
+                },
+            })
+        ]);
+
+        const totalPages = Math.ceil(totalPosts / pageSize);
+
+        res.status(200).json({
+            posts,
+            totalPages,
+            currentPage: page
         });
-        res.status(200).json(posts);
     } catch (error) {
-        res.status(500).json({ mensagem: "Erro ao buscar posts." });
+        res.status(500).json({ mensagem: 'Erro ao buscar os posts.' });
     }
 });
 

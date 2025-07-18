@@ -28,3 +28,8 @@
 .toast-animate-out {
     animation: fadeOut 0.25s ease-in forwards;
 }
+
+
+html {
+  scroll-behavior: smooth;
+}
