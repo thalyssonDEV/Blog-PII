@@ -44,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return `
                 <article class="bg-white p-6 rounded-lg shadow-md">
                     <div class="flex items-center mb-4">
-                        <a href="/outro_perfil.html?id=${post.autor.id}">
+                        <a href="${linkPerfil}">
                             <img src="${post.autor.foto_url || '/assets/default-avatar.svg'}" alt="Foto de ${post.autor.nome}" class="w-12 h-12 rounded-full mr-4 object-cover">
                         </a>
                         <div>
-                            <a href="/outro_perfil.html?id=${post.autor.id}" class="font-bold text-slate-800 hover:text-indigo-600">${post.autor.nome}</a>
+                            <a href="${linkPerfil}" class="font-bold text-slate-800 hover:text-indigo-600">${post.autor.nome}</a>
                             <p class="text-sm text-slate-500">${new Date(post.createdAt).toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'})}</p>
                         </div>
                     </div>
