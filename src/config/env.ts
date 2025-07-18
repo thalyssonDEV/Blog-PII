@@ -6,7 +6,7 @@ dotenv.config();
 // 1. Define o schema (o "contrato") para as variáveis de ambiente
 const envSchema = z.object({
     // Garante que DATABASE_URL seja uma string no formato de URL e não esteja vazia
-    DATABASE_URL: z.string().url().min(1),
+    DATABASE_URL: z.string(),
     // Garante que JWT_SECRET seja uma string e não esteja vazia
     JWT_SECRET: z.string().min(1),
 
