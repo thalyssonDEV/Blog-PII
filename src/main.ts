@@ -10,6 +10,15 @@ import prisma from './prismaClient';
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Servir arquivos estáticos da pasta 'public' de forma robusta
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// --- Rota para a raiz do site ---
+// Redireciona para a página de login por padrão.
+app.get('/', (req: Request, res: Response) => {
+    res.redirect('/login.html');
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
