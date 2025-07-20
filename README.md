@@ -1,6 +1,14 @@
-# Plataforma de Blog Pessoal
+# Blog 
 
-Uma plataforma de blog moderna e segura construída com TypeScript, Node.js e PostgreSQL. Inclui autenticação de usuários, criação de posts de blog, sistema de comentários e armazenamento de imagens na nuvem para fotos de perfil.
+Uma solução completa de blog empresarial com foco em segurança, escalabilidade e experiência do usuário. Desenvolvida com TypeScript, Node.js e PostgreSQL, oferece autenticação robusta com JWT, sistema de comentários moderado, upload seguro de imagens via Google Cloud Storage e arquitetura preparada para alta disponibilidade.
+
+**Principais Diferenciais:**
+- Arquitetura em camadas com separação clara de responsabilidades
+- Sistema de autenticação JWT com tokens de curta duração
+- Upload de imagens otimizado com Google Cloud Storage
+- Validação rigorosa de entrada e proteção contra XSS
+- Interface responsiva construída com Tailwind CSS
+- Containerização Docker para deploy simplificado
 
 ## Funcionalidades
 
