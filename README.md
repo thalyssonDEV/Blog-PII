@@ -1,6 +1,5 @@
 # Blog 
 
-Uma solução completa de blog empresarial com foco em segurança, escalabilidade e experiência do usuário. Desenvolvida com TypeScript, Node.js e PostgreSQL, oferece autenticação robusta com JWT, sistema de comentários moderado, upload seguro de imagens via Google Cloud Storage e arquitetura preparada para alta disponibilidade.
 
 **Principais Diferenciais:**
 - Arquitetura em camadas com separação clara de responsabilidades
