@@ -5,9 +5,8 @@ interface CommentData {
 }
 
 export class CommentService {
-    /**
-     * Cria um novo comentário em um post específico, associado a um autor.
-     */
+
+    // Cria um novo comentário em um post específico, associado a um autor.
     public async criarComentario(autorId: number, postId: number, dadosComentario: CommentData) {
         const { texto } = dadosComentario;
 

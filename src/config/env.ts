@@ -23,7 +23,7 @@ const parsedEnv = envSchema.safeParse(process.env);
 // 3. Se a validação falhar, mostra um erro claro e encerra a aplicação
 if (!parsedEnv.success) {
     console.error(
-        '❌ Erro nas Variáveis de Ambiente:',
+        'Erro nas Variáveis de Ambiente:',
         parsedEnv.error.flatten().fieldErrors,
     );
     // Encerra o processo com um código de erro

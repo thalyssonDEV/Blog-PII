@@ -19,9 +19,9 @@ export class UserService {
     // Pega o nome do bucket do nosso arquivo .env
     private bucket = this.storage.bucket(env.GCS_BUCKET_NAME);
 
-    /**
-     * Registra um novo usuário, hasheia a senha e faz o upload da foto (se enviada).
-     */
+
+    // Registra um novo usuário, hasheia a senha e faz o upload da foto (se enviada).
+
     public async registrar(dadosUsuario: any, arquivoFoto?: FotoArquivo) {
         const { nome, email, senha } = dadosUsuario;
 
@@ -56,9 +56,7 @@ export class UserService {
         return usuarioSemSenha;
     }
 
-    /**
-     * Autentica um usuário, verificando seu e-mail e senha.
-     */
+    // Autentica um usuário, verificando seu e-mail e senha.
     public async autenticar(email: string, senhaPlana: string) {
         const usuario = await prisma.user.findUnique({
             where: { email }
@@ -77,9 +75,7 @@ export class UserService {
         return usuarioSemSenha;
     }
 
-    /**
-     * Deleta um usuário, sua foto no GCS e todos os dados relacionados.
-     */
+    // Deleta um usuário, sua foto no GCS e todos os dados relacionados.
     public async deletarUsuario(userId: number, senhaFornecida: string) {
         const usuario = await prisma.user.findUnique({
             where: { id: userId }
@@ -111,17 +107,17 @@ export class UserService {
         return { mensagem: 'Conta deletada com sucesso.' };
     }
 
-    /**
-     * Método privado para hashear a senha.
-     */
+
+    // Método privado para hashear a senha.
+
     private async hashPassword(senha: string): Promise<string> {
         const salt = await bcrypt.genSalt(10);
         return bcrypt.hash(senha, salt);
     }
 
-    /**
-     * Método privado para fazer upload do arquivo para o Google Cloud Storage.
-     */
+
+    // Método privado para fazer upload do arquivo para o Google Cloud Storage.
+
     private uploadToGCS(arquivo: FotoArquivo, nomeArquivoFinal: string): Promise<string> {
         return new Promise((resolve, reject) => {
             const blob = this.bucket.file(nomeArquivoFinal);
@@ -142,9 +138,8 @@ export class UserService {
         });
     }
 
-    /**
-     * Método privado para deletar um arquivo do Google Cloud Storage.
-     */
+    // Método privado para deletar um arquivo do Google Cloud Storage.
+
     private async deleteFromGCS(nomeArquivo: string): Promise<void> {
         try {
             await this.bucket.file(nomeArquivo).delete();

@@ -6,9 +6,9 @@ interface PostData {
 }
 
 export class PostService {
-    /**
-     * Cria um novo post associado a um autor.
-     */
+
+    // Cria um novo post associado a um autor.
+
     public async criarPost(autorId: number, dadosPost: any) {
         const { titulo, conteudo } = dadosPost;
 
