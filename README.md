@@ -1,13 +1,5 @@
 # Blog PII
 
-Este projeto foi desenvolvido como projeto final da disciplina Programação para Internet I, com o objetivo de criar uma plataforma de um blog.
-
-**Integrantes do Grupo:**
-1. [Álvaro Pietro Borges de Sousa Brandão](https://github.com/PietroDev-01)
-2. [João Paulo Lopes da Silva](https://github.com/jpaullopes)
-3. [Thalysson Delano Borges Ferreira](https://github.com/thalyssonDEV)
-
-**Tecnologias Utilizadas:**
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
@@ -15,6 +7,13 @@ Este projeto foi desenvolvido como projeto final da disciplina Programação par
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+
+Este projeto foi desenvolvido como projeto final da disciplina Programação para Internet I, com o objetivo de criar uma plataforma de um blog.
+
+**Integrantes do Grupo:**
+1. [Álvaro Pietro Borges de Sousa Brandão](https://github.com/PietroDev-01)
+2. [João Paulo Lopes da Silva](https://github.com/jpaullopes)
+3. [Thalysson Delano Borges Ferreira](https://github.com/thalyssonDEV)
 
 ## Sumário
 
