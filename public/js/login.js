@@ -23,7 +23,7 @@ const form = document.getElementById('login-form');
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const email = document.getElementById('email').value.trim();
+    const email = document.getElementById('email').value.trim().toLowerCase();
     const senha = document.getElementById('senha').value;
 
     if (!email || !senha) {
