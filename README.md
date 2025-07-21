@@ -297,6 +297,32 @@ Social-Network-PII/
 - Rolagem suave e animações
 - Layouts otimizados para mobile
 
+### Screenshots da Aplicação
+
+#### Página de Login
+<div align="center">
+  <img src="images/imagem_login.png" alt="Página de Login" width="800">
+  <p><em>Interface de login com design moderno e responsivo</em></p>
+</div>
+
+#### Página de Cadastro
+<div align="center">
+  <img src="images/imagem_cadastro.png" alt="Página de Cadastro" width="800">
+  <p><em>Formulário de registro</em></p>
+</div>
+
+#### Página Principal (Home)
+<div align="center">
+  <img src="images/imagem_home_page.png" alt="Página Principal" width="800">
+  <p><em>Feed de posts com sistema de paginação e interações</em></p>
+</div>
+
+#### Página de Perfil
+<div align="center">
+  <img src="images/imagem_perfil.png" alt="Página de Perfil" width="800">
+  <p><em>Gerenciamento de perfil com abas para posts e comentários</em></p>
+</div>
+
 ### Experiência do Usuário
 - Validação de formulário em tempo real
 - Pré-visualização de imagem para uploads
