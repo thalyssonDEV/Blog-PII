@@ -159,47 +159,26 @@ npm run test:db
 ```
 Social-Network-PII/
 ├── src/                          # Código fonte do backend
-│   ├── classes/                  # Classes da camada de serviço
-│   │   ├── UserService.ts        # Lógica de gerenciamento de usuários
-│   │   ├── PostService.ts        # Lógica de gerenciamento de posts
-│   │   └── CommentService.ts     # Lógica de gerenciamento de comentários
-│   ├── config/                   # Arquivos de configuração
-│   │   ├── env.ts               # Validação de ambiente
-│   │   └── multer.ts            # Configuração de upload de arquivos
-│   ├── middleware/               # Middleware do Express
-│   │   └── authMiddleware.ts     # Autenticação JWT
-│   ├── routes/                   # Manipuladores de rotas da API
-│   │   ├── userRoutes.ts         # Endpoints relacionados a usuários
-│   │   ├── postRoutes.ts         # Endpoints relacionados a posts
-│   │   └── commentRoutes.ts      # Endpoints relacionados a comentários
+│   ├── classes/                  # Contém classes que encapsulam a lógica de negócio, como UserService e PostService
+│   ├── config/                   # Arquivos de configuração, como validação de ambiente e upload de arquivos
+│   ├── middleware/               # Middleware do Express para autenticação e outras funções transversais
+│   ├── routes/                   # Manipuladores de rotas da API, organizados por recurso
 │   ├── main.ts                   # Ponto de entrada da aplicação
-│   ├── prismaClient.ts           # Cliente do banco de dados
+│   ├── prismaClient.ts           # Cliente do banco de dados Prisma
 │   └── testConnection.ts         # Teste de conexão do banco
-├── public/                       # Arquivos estáticos do frontend
-│   ├── js/                       # Módulos JavaScript
-│   │   ├── auth.js              # Lógica de autenticação
-│   │   ├── home.js              # Funcionalidade da página inicial
-│   │   ├── perfil.js            # Gerenciamento de perfil
-│   │   ├── post.js              # Visualização de posts
-│   │   ├── criar-post.js        # Criação de posts
-│   │   ├── login.js             # Formulário de login
-│   │   ├── registro.js          # Formulário de registro
-│   │   ├── logout.js            # Funcionalidade de logout
-│   │   ├── outro_perfil.js      # Perfis de outros usuários
-│   │   └── utils.js             # Utilitários compartilhados
-│   ├── css/
-│   │   └── styles.css           # Estilos customizados
-│   ├── assets/
-│   │   └── default-avatar.svg   # Imagem de perfil padrão
-│   └── *.html                   # Páginas HTML
+├── public/                       # Arquivos estáticos do frontend, como HTML, CSS e JavaScript
+│   ├── js/                       # Módulos JavaScript para funcionalidades específicas
+│   ├── css/                      # Estilos customizados
+│   ├── assets/                   # Recursos estáticos, como imagens
+│   └── *.html                    # Páginas HTML
 ├── prisma/                       # Schema do banco e migrações
-│   ├── schema.prisma            # Definição do schema do banco
-│   └── migrations/              # Arquivos de migração do banco
+│   ├── schema.prisma             # Definição do schema do banco
+│   └── migrations/               # Arquivos de migração do banco
 ├── Dockerfile                    # Configuração do Docker
-├── docker-compose.yml           # Configuração do Docker Compose
-├── package.json                 # Dependências e scripts
-├── tsconfig.json               # Configuração do TypeScript
-└── README.md                   # Documentação do projeto
+├── docker-compose.yml            # Configuração do Docker Compose
+├── package.json                  # Dependências e scripts
+├── tsconfig.json                 # Configuração do TypeScript
+└── README.md                     # Documentação do projeto
 ```
 
 ## Endpoints da API
@@ -328,22 +307,7 @@ Certifique-se de que todas as variáveis de ambiente necessárias estejam defini
 - `GCS_BUCKET_NAME`
 - `GCP_PROJECT_ID`
 
-### Checklist de Produção
-- [ ] Definir chave JWT forte
-- [ ] Configurar banco de dados de produção
-- [ ] Configurar Google Cloud Storage
-- [ ] Configurar HTTPS
-- [ ] Configurar monitoramento e logging
-- [ ] Executar migrações do banco
-- [ ] Testar todos os endpoints
 
-## Contribuindo
-
-1. Faça um fork do repositório
-2. Crie uma branch de funcionalidade (`git checkout -b feature/funcionalidade-incrivel`)
-3. Faça commit das suas alterações (`git commit -m 'Adicionar funcionalidade incrível'`)
-4. Faça push para a branch (`git push origin feature/funcionalidade-incrivel`)
-5. Abra um Pull Request
 
 ### Padrões de Código
 - Use TypeScript para todo o código backend
@@ -356,27 +320,4 @@ Certifique-se de que todas as variáveis de ambiente necessárias estejam defini
 
 Este projeto está licenciado sob a Licença ISC. Veja o arquivo `package.json` para detalhes.
 
-## Suporte
 
-Para suporte e dúvidas:
-1. Verifique a documentação acima
-2. Revise os comentários do código para detalhes de implementação
-3. Verifique o schema do banco em `prisma/schema.prisma`
-4. Verifique a configuração do ambiente
-
-## Melhorias Futuras
-
-- Notificações em tempo real para novos comentários
-- Funcionalidade de busca avançada para posts do blog
-- Assinaturas por email para novos posts
-- Verificação por email para contas de usuário
-- Autenticação com redes sociais (Google, GitHub)
-- Ferramentas avançadas de moderação de conteúdo
-- Dashboard de analytics para métricas do blog
-- Aplicação mobile
-- Suporte a feed RSS
-- Categorização e tags de conteúdo
-
----
-
-Construído para a comunidade de blogging
