@@ -19,14 +19,12 @@ const regrasValidacaoPost = [
         .trim().escape()
 ];
 
-// --- ROTA DO FEED ATUALIZADA COM PAGINAÇÃO ---
 router.get('/posts', authMiddleware, async (req: Request, res: Response) => {
     try {
         const page = parseInt(req.query.page as string) || 1;
-        const pageSize = 5; // 5 posts por página
+        const pageSize = 5;
         const skip = (page - 1) * pageSize;
 
-        // Executa duas queries em paralelo: uma para contar o total e outra para buscar os posts da página
         const [totalPosts, posts] = await prisma.$transaction([
             prisma.post.count(),
             prisma.post.findMany({
@@ -43,6 +41,9 @@ router.get('/posts', authMiddleware, async (req: Request, res: Response) => {
                             foto_url: true,
                         },
                     },
+                    _count: {
+                        select: { comentarios: true }
+                    }
                 },
             })
         ]);

@@ -151,26 +151,38 @@ router.get('/perfil/meu', authMiddleware, async (req: AuthRequest, res: Response
     }
 });
 
-
-// ROTA DE PERFIL ATUALIZADA: Retorna apenas os dados do usuário.
-router.get('/perfil/:userId', authMiddleware, async (req: Request, res: Response) => {
-    const userIdParam = parseInt(req.params.userId, 10);
-    if (isNaN(userIdParam)) {
-        return res.status(400).json({ mensagem: 'ID de usuário inválido.' });
-    }
-
+// Rota para buscar o perfil de qualquer usuário pelo ID
+router.get('/perfil/:id', authMiddleware, async (req: Request, res: Response) => {
     try {
+        const userId = parseInt(req.params.id, 10);
+        if (isNaN(userId)) {
+            return res.status(400).json({ mensagem: "ID de usuário inválido." });
+        }
+        
         const perfil = await prisma.user.findUnique({
-            where: { id: userIdParam },
-            select: { id: true, nome: true, email: true, foto_url: true }
+            where: { id: userId },
+            select: {
+                id: true,
+                nome: true,
+                email: true, // Manter o email para a página do próprio usuário
+                foto_url: true,
+                createdAt: true,
+                // Inclui a contagem de posts, resolvendo o erro 'Cannot read properties'
+                _count: {
+                    select: {
+                        posts: true,
+                    },
+                },
+            },
         });
 
         if (!perfil) {
-            return res.status(404).json({ mensagem: 'Perfil não encontrado.' });
+            return res.status(404).json({ mensagem: "Usuário não encontrado." });
         }
+        
         res.status(200).json(perfil);
     } catch (error) {
-        res.status(500).json({ mensagem: "Erro ao buscar perfil." });
+        res.status(500).json({ mensagem: 'Erro ao buscar perfil do usuário.' });
     }
 });
 

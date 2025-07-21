@@ -1,0 +1,73 @@
+/*
+  JUSTIFICATIVA: Centralizar os estilos globais e as animações em um arquivo CSS separado
+  mantém o HTML mais limpo e facilita a manutenção.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Configuração base para transições suaves e fontes mais nítidas */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Transições suaves para todos os elementos interativos */
+  button, a {
+    @apply transition-all duration-200 ease-in-out;
+  }
+}
+
+/* Animações para Toasts e Modais */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Animação para carregamento escalonado dos posts */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.toast-animate-in {
+    animation: slideInRight 0.25s ease-out forwards;
+}
+
+.toast-animate-out {
+    animation: fadeOut 0.25s ease-in forwards;
+}
+
+@layer utilities {
+    .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+}
