@@ -1,12 +1,17 @@
 # Blog PII
 
+<div align="center">
+
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white)
+
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+
+</div>
 
 Este projeto foi desenvolvido como projeto final da disciplina Programação para Internet I, com o objetivo de criar uma plataforma de um blog.
 
@@ -58,9 +63,7 @@ Este projeto foi desenvolvido como projeto final da disciplina Programação par
   - [Organização do Código](#organização-do-código)
   - [Gerenciamento do Banco de Dados](#gerenciamento-do-banco-de-dados)
   - [Scripts de Desenvolvimento](#scripts-de-desenvolvimento)
-- [Deploy](#deploy)
-  - [Variáveis de Ambiente](#variáveis-de-ambiente)
-- [Padrões de Código](#padrões-de-código)
+
 
 **Principais Diferenciais:**
 - Arquitetura em camadas com separação clara de responsabilidades
@@ -357,24 +360,3 @@ npm start          # Iniciar servidor de desenvolvimento
 npm run build      # Compilar TypeScript
 npm run test:db    # Testar conexão do banco
 ```
-
-## Deploy
-
-### Variáveis de Ambiente
-Certifique-se de que todas as variáveis de ambiente necessárias estejam definidas:
-- `DATABASE_URL`
-- `JWT_SECRET`
-- `GOOGLE_APPLICATION_CREDENTIALS`
-- `GCS_BUCKET_NAME`
-- `GCP_PROJECT_ID`
-
-
-### Padrões de Código
-- Use TypeScript para todo o código backend
-- Siga a configuração do ESLint
-- Adicione validação para todas as entradas do usuário
-- Inclua tratamento de erro para todas as operações
-- Escreva mensagens de commit descritivas
-
-
-
