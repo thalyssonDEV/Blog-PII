@@ -53,13 +53,13 @@ services:
     environment:
       # --- IMPORTANTE: CONFIGURE ESTAS VARIÁVEIS ---
       # O seu nome de domínio (ex: meublog.com)
-      - VIRTUAL_HOST=seu-dominio.com
+      - VIRTUAL_HOST=verby.ddns.net
       # A porta interna em que a sua aplicação Node.js está a rodar
       - VIRTUAL_PORT=8000
       # O domínio para o qual o Let's Encrypt deve gerar o certificado
-      - LETSENCRYPT_HOST=seu-dominio.com
+      - LETSENCRYPT_HOST=verby.ddns.net
       # O seu e-mail para receber notificações do Let's Encrypt (ex: sobre renovações)
-      - LETSENCRYPT_EMAIL=seu-email@dominio.com
+      - LETSENCRYPT_EMAIL=contato.thalyssondel@gmail.com
 
 # --- FIM DOS SERVIÇOS ---
 
