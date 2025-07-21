@@ -1,6 +1,8 @@
 // 1. Validação das variáveis de ambiente
 import { env } from './config/env';
 import commentRoutes from './routes/commentRoutes';
+import path from 'path';
+import { Request, Response } from 'express';
 
 import express from 'express';
 import userRoutes from './routes/userRoutes';

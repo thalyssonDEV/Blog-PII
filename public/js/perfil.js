@@ -1,173 +1,156 @@
-// Espera o HTML inteiro ser carregado antes de executar qualquer código
 document.addEventListener('DOMContentLoaded', () => {
-    // Pega o token de autenticação, que será usado em todas as requisições
     const token = localStorage.getItem('authToken');
     
-    // Variáveis de estado para controlar a paginação
-    let postsCursor = null;
-    let comentariosCursor = null;
     let meuUserId = null;
-
-    // --- Seleciona os contêineres principais que sempre existem na página ---
     const perfilInfoContainer = document.getElementById('perfil-info-container');
+    const fotoPreview = document.getElementById('foto-preview');
+    
     const postsContainer = document.getElementById('meus-posts-container');
     const comentariosContainer = document.getElementById('meus-comentarios-container');
     const lerMaisPostsContainer = document.getElementById('ler-mais-posts-container');
     const lerMaisComentariosContainer = document.getElementById('ler-mais-comentarios-container');
+    let postsCursor = null;
+    let comentariosCursor = null;
 
-    // --- FUNÇÕES DE RENDERIZAÇÃO ---
+    const postDeleteModal = document.getElementById('modal-confirmar-exclusao-post');
+    const btnCancelPostDelete = document.getElementById('btn-modal-cancelar-post');
+    const btnConfirmPostDelete = document.getElementById('btn-modal-confirmar-post');
 
+
+    const setupTabs = () => {
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                tabs.forEach(t => {
+                    t.classList.remove('border-accent-600', 'text-accent-600', 'dark:border-accent-500', 'dark:text-accent-500');
+                    t.classList.add('text-slate-500', 'dark:text-gray-500');
+                });
+                tab.classList.add('border-accent-600', 'text-accent-600', 'dark:border-accent-500', 'dark:text-accent-500');
+                tab.classList.remove('text-slate-500', 'dark:text-gray-500');
+                tabContents.forEach(content => {
+                    content.id === `tab-content-${target}` ? content.classList.remove('hidden') : content.classList.add('hidden');
+                });
+            });
+        });
+    };
+    
     const renderizarPosts = (posts) => {
         if (posts.length === 0 && postsContainer.innerHTML === '') {
-            postsContainer.innerHTML = '<p class="text-slate-500">Você ainda não criou nenhum post.</p>';
+            postsContainer.innerHTML = '<p class="text-slate-500 dark:text-gray-400 p-8 text-center">Você ainda não criou nenhum post.</p>';
             return;
         }
-
-        // --- LÓGICA DE RENDERIZAÇÃO CORRIGIDA (IGUAL À DO FEED) ---
-        const postsHtml = posts.map(post => {
-            const limiteCaracteres = 200;
-            let conteudoExibido = post.conteudo;
-            if (post.conteudo.length > limiteCaracteres) {
-                conteudoExibido = post.conteudo.substring(0, limiteCaracteres) + '...';
-            }
-
-            return `
-            <article id="post-${post.id}" class="bg-white p-6 rounded-lg shadow flex flex-col relative">
-                <button data-post-id="${post.id}" class="btn-deletar-post absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                </button>
-                <h2 class="text-xl font-bold mb-2 pr-8">${post.titulo}</h2>
-                <p class="text-slate-700 break-words flex-grow">${post.conteudo.substring(0, 500)}...</p>
-                <div class="mt-4 pt-4 border-t border-slate-200">
-                    <a href="/post.html?id=${post.id}" class="font-medium text-indigo-600 hover:text-indigo-700">Ver post completo</a>
+        const postsHtml = posts.map(post => `
+            <article id="post-${post.id}" class="p-4 border-b border-slate-200 dark:border-gray-700 relative group/article">
+                <div class="flex space-x-4">
+                    <div class="flex-1 min-w-0">
+                        <span class="text-sm text-slate-500 dark:text-gray-400">${new Date(post.createdAt).toLocaleDateString('pt-BR', {day: '2-digit', month: 'long', year: 'numeric'})}</span>
+                        <h2 class="text-lg font-bold mt-1 truncate">${post.titulo}</h2>
+                        <p class="mt-1 text-base text-slate-600 dark:text-gray-300 line-clamp-2 break-words">${post.conteudo}</p>
+                        <a href="/post.html?id=${post.id}" class="text-accent-600 dark:text-accent-500 font-semibold mt-2 inline-block">Ver post completo &rarr;</a>
+                    </div>
+                    <button data-post-id="${post.id}" class="btn-deletar-post absolute top-4 right-4 text-slate-400 hover:text-red-500 p-2 rounded-full hover:bg-red-500/10 opacity-0 group-hover/article:opacity-100 transition-opacity">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    </button>
                 </div>
-            </article>`;
-        }).join('');
-        // --- FIM DA LÓGICA ATUALIZADA ---
-
-        postsContainer.innerHTML += postsHtml;
+            </article>`).join('');
+        postsContainer.insertAdjacentHTML('beforeend', postsHtml);
     };
 
     const renderizarComentarios = (comentarios) => {
-        if (comentarios.length === 0 && comentariosContainer.innerHTML === '') {
-            comentariosContainer.innerHTML = '<p class="text-slate-500">Você ainda não fez nenhum comentário.</p>';
+        if (comentarios.length === 0 && comentariosContainer.innerHTML.trim() === '') {
+            comentariosContainer.innerHTML = '<p class="text-slate-500 dark:text-gray-400 text-center p-8">Você ainda não fez nenhum comentário.</p>';
             return;
         }
-        const comentariosHtml = comentarios.map(comentario => `
-            <div class="bg-white p-3 rounded-lg shadow-sm">
-                <p class="text-slate-700">"${comentario.texto}"</p>
-                <p class="text-xs text-slate-500 mt-1">...em resposta ao post: <strong>${comentario.post.titulo}</strong></p>
+        const comentariosHtml = comentarios.map(c => `
+            <div class="border border-slate-200 dark:border-gray-700 p-3 rounded-lg bg-slate-50 dark:bg-gray-800">
+                <p class="text-slate-700 dark:text-gray-300 break-words">"${c.texto}"</p>
+                <a href="/post.html?id=${c.postId}" class="text-xs text-slate-500 dark:text-gray-500 mt-2 block hover:underline">
+                    ...em resposta a: <strong>${c.post.titulo}</strong>
+                </a>
             </div>`).join('');
-        comentariosContainer.innerHTML += comentariosHtml;
+        comentariosContainer.insertAdjacentHTML('beforeend', comentariosHtml);
     };
 
-    // --- FUNÇÕES DE FETCH (PAGINAÇÃO) ---
-    const carregarMaisPosts = async () => {
-        if (!meuUserId) return;
-        const url = `/api/usuario/${meuUserId}/posts${postsCursor ? `?cursor=${postsCursor}` : ''}`;
+    const carregarMais = async (tipo) => {
+        const isPosts = tipo === 'posts';
+        const url = `/api/usuario/${meuUserId}/${tipo}${isPosts ? (postsCursor ? `?cursor=${postsCursor}` : '') : (comentariosCursor ? `?cursor=${comentariosCursor}` : '')}`;
+        const lerMaisContainer = isPosts ? lerMaisPostsContainer : lerMaisComentariosContainer;
+        
         try {
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
             const data = await response.json();
-            renderizarPosts(data.posts);
-            postsCursor = data.nextCursor;
-            if (postsCursor) {
-                lerMaisPostsContainer.innerHTML = `<button id="btn-ler-mais-posts" class="bg-indigo-100 text-indigo-700 font-bold py-2 px-4 rounded-lg hover:bg-indigo-200">Carregar mais posts</button>`;
-                document.getElementById('btn-ler-mais-posts').addEventListener('click', carregarMaisPosts);
+            
+            if(isPosts) {
+                renderizarPosts(data.posts);
+                postsCursor = data.nextCursor;
             } else {
-                lerMaisPostsContainer.innerHTML = '';
+                renderizarComentarios(data.comentarios);
+                comentariosCursor = data.nextCursor;
             }
-        } catch (error) {
-            console.error("Erro ao carregar posts:", error);
-        }
-    };
 
-    const carregarMaisComentarios = async () => {
-        if (!meuUserId) return;
-        const url = `/api/usuario/${meuUserId}/comentarios${comentariosCursor ? `?cursor=${comentariosCursor}` : ''}`;
-        try {
-            const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-            const data = await response.json();
-            renderizarComentarios(data.comentarios);
-            comentariosCursor = data.nextCursor;
-            if (comentariosCursor) {
-                lerMaisComentariosContainer.innerHTML = `<button id="btn-ler-mais-comentarios" class="bg-indigo-100 text-indigo-700 font-bold py-2 px-4 rounded-lg hover:bg-indigo-200">Carregar mais comentários</button>`;
-                document.getElementById('btn-ler-mais-comentarios').addEventListener('click', carregarMaisComentarios);
+            const nextCursor = isPosts ? postsCursor : comentariosCursor;
+            if (nextCursor) {
+                lerMaisContainer.innerHTML = `<button id="btn-ler-mais-${tipo}" class="border border-slate-300 dark:border-gray-600 font-semibold py-2 px-4 rounded-full">Carregar mais</button>`;
+                document.getElementById(`btn-ler-mais-${tipo}`).addEventListener('click', () => carregarMais(tipo));
             } else {
-                lerMaisComentariosContainer.innerHTML = '';
+                lerMaisContainer.innerHTML = '';
             }
-        } catch (error) {
-            console.error("Erro ao carregar comentários:", error);
-        }
+        } catch (error) { console.error(`Erro ao carregar ${tipo}:`, error); }
     };
-
-    // --- FUNÇÃO PARA CONFIGURAR TODOS OS EVENT LISTENERS ---
+    
     const setupEventListeners = () => {
+        postsContainer.addEventListener('click', (event) => {
+            const deleteButton = event.target.closest('.btn-deletar-post');
+            if (deleteButton) {
+                const postId = deleteButton.dataset.postId;
+                if(postDeleteModal) {
+                    btnConfirmPostDelete.dataset.postId = postId;
+                    postDeleteModal.classList.remove('hidden');
+                    postDeleteModal.classList.add('flex');
+                }
+            }
+        });
+
+        if(btnConfirmPostDelete) {
+            btnConfirmPostDelete.addEventListener('click', async () => {
+                const postId = btnConfirmPostDelete.dataset.postId;
+                if (!postId) return;
+                try {
+                    const response = await fetch(`/api/posts/${postId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.mensagem);
+                    document.getElementById(`post-${postId}`)?.remove();
+                    showToast(result.mensagem, 'success');
+                } catch (error) {
+                    showToast(error.message, 'error');
+                } finally {
+                    if(postDeleteModal) {
+                        postDeleteModal.classList.add('hidden');
+                        postDeleteModal.classList.remove('flex');
+                    }
+                }
+            });
+        }
+        
+        if(btnCancelPostDelete) {
+            btnCancelPostDelete.addEventListener('click', () => {
+                if(postDeleteModal) {
+                    postDeleteModal.classList.add('hidden');
+                    postDeleteModal.classList.remove('flex');
+                }
+            });
+        }
+
         const btnAlterarFoto = document.getElementById('btn-alterar-foto');
         const inputFotoUpload = document.getElementById('input-foto-upload');
-        const fotoPreview = document.getElementById('foto-preview');
         const btnIniciarExclusao = document.getElementById('btn-iniciar-exclusao');
         const secaoConfirmar = document.getElementById('secao-confirmar-exclusao');
         const btnCancelarExclusao = document.getElementById('btn-cancelar-exclusao');
         const btnConfirmarExclusao = document.getElementById('btn-confirmar-exclusao');
         const inputSenha = document.getElementById('input-senha-confirmacao');
-        const modal = document.getElementById('modal-confirmar-exclusao');
-        const btnModalCancelar = document.getElementById('btn-modal-cancelar');
-        const btnModalConfirmar = document.getElementById('btn-modal-confirmar');
-
-        const abrirModalDelecao = (postId) => {
-            // Define qual post será deletado quando o botão "Sim" for clicado
-            if(btnModalConfirmar) btnModalConfirmar.dataset.postId = postId;
-            if(modal) modal.classList.remove('hidden');
-        };
-
-        const fecharModalDelecao = () => {
-            if(modal) modal.classList.add('hidden');
-            if(btnModalConfirmar) btnModalConfirmar.dataset.postId = '';
-        };
-
-        // Adiciona o listener para fechar o modal
-        if(btnModalCancelar) btnModalCancelar.addEventListener('click', fecharModalDelecao);
-
-        // Adiciona o listener para confirmar a deleção
-        if(btnModalConfirmar) {
-            btnModalConfirmar.addEventListener('click', async () => {
-                const postId = btnModalConfirmar.dataset.postId;
-                if (!postId) return;
-
-                try {
-                    const response = await fetch(`/api/posts/${postId}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    const result = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(result.mensagem);
-                    }
-
-                    // Remove o post da tela e fecha o modal
-                    document.getElementById(`post-${postId}`).remove();
-                    fecharModalDelecao();
-                    showToast(result.mensagem, 'success');
-
-                } catch (error) {
-                    showToast(error.message, 'error');
-                }
-            });
-        }
-
-        // --- ADICIONA EVENTO NO CONTAINER DOS POSTS (DELEGAÇÃO) ---
-        const postsContainer = document.getElementById('meus-posts-container');
-        if(postsContainer) {
-            postsContainer.addEventListener('click', (event) => {
-                const deleteButton = event.target.closest('.btn-deletar-post');
-                if (deleteButton) {
-                    const postId = deleteButton.dataset.postId;
-                    abrirModalDelecao(postId);
-                }
-            });
-        }
-
+        
         if (btnAlterarFoto && inputFotoUpload) {
             btnAlterarFoto.addEventListener('click', () => inputFotoUpload.click());
             inputFotoUpload.addEventListener('change', async () => {
@@ -217,10 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     const response = await fetch('/api/perfil/meu', {
                         method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                         body: JSON.stringify({ senha })
                     });
                     const result = await response.json();
@@ -237,45 +217,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     };
-
-    // --- FUNÇÃO DE INICIALIZAÇÃO DA PÁGINA ---
+    
     const carregarPagina = async () => {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
             meuUserId = payload.userId;
-
             const perfilResponse = await fetch(`/api/perfil/${meuUserId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (!perfilResponse.ok) throw new Error('Falha ao buscar perfil.');
             const perfil = await perfilResponse.json();
-
-            if (perfilInfoContainer) {
-                perfilInfoContainer.innerHTML = `
-                    <div class="relative mb-6 sm:mb-0 sm:mr-8 flex-shrink-0">
-                        <img id="foto-preview" class="w-32 h-32 rounded-full border-4 border-indigo-200 bg-slate-200 object-cover" src="${perfil.foto_url || '/assets/default-avatar.svg'}" alt="Foto de Perfil">
-                        <button id="btn-alterar-foto" class="absolute -bottom-1 -right-1 bg-indigo-600 text-white p-2 rounded-full shadow-lg hover:bg-indigo-700 transition-transform transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" title="Alterar foto de perfil">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" /></svg>
-                        </button>
-                        <input type="file" id="input-foto-upload" class="hidden" accept="image/*">
-                    </div>
-                    <div>
-                        <h1 id="perfil-nome" class="text-3xl font-bold text-slate-800">${perfil.nome}</h1>
-                        <p id="perfil-email" class="text-slate-600 mt-1">${perfil.email}</p>
-                    </div>`;
-            }
-
-            await carregarMaisPosts();
-            await carregarMaisComentarios();
+            perfilInfoContainer.innerHTML = `<h1 class="text-2xl font-bold">${perfil.nome}</h1><p class="text-slate-600 dark:text-gray-400 mt-1">${perfil.email}</p>`;
+            fotoPreview.src = perfil.foto_url || '/assets/default-avatar.svg';
             
+            await carregarMais('posts');
+            await carregarMais('comentarios');
+            
+            setupTabs();
             setupEventListeners();
         } catch (error) {
-            console.error("Falha ao carregar perfil, redirecionando para login:", error);
-            // 1. Remove o token inválido que causou o erro
             localStorage.removeItem('authToken');
-            
-            // 2. Redireciona o usuário para a página de login
             window.location.href = '/login.html';
         }
     };
-
+    
     carregarPagina();
 });
