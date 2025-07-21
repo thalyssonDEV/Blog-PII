@@ -1,5 +1,11 @@
-# Blog 
+# Blog PII
 
+Este projeto foi desenvolvido como projeto final da disciplina Programação para Internet I, com o objetivo de criar uma plataforma de um blog.
+
+**Integrantes do Grupo:**
+1. [Álvaro Pietro Borges de Sousa Brandão](https://github.com/PietroDev-01)
+2. [João Paulo Lopes da Silva](https://github.com/jpaullopes)
+3. [Thalysson Delano Borges Ferreira](https://github.com/thalyssonDEV)
 
 **Principais Diferenciais:**
 - Arquitetura em camadas com separação clara de responsabilidades
