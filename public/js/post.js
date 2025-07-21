@@ -58,20 +58,25 @@ document.addEventListener('DOMContentLoaded', () => {
             comentariosContainer.innerHTML = '<p class="text-center p-8 text-slate-500 dark:text-gray-400">Seja o primeiro a comentar!</p>';
             return;
         }
-        comentariosContainer.innerHTML = comentarios.map(comentario => `
+        comentariosContainer.innerHTML = comentarios.map(comentario => {
+            // Verifica se o perfil do comentário é o do próprio usuário logado
+            const ehMeuComentario = comentario.autor.id === meuUserId;
+            const linkPerfilComentario = ehMeuComentario ? '/perfil.html' : `/outro_perfil.html?id=${comentario.autor.id}`;
+
+            return `
             <div class="p-4 border-b border-slate-200 dark:border-gray-700 flex gap-4">
-                <a href="#">
+                <a href="${linkPerfilComentario}">
                     <img src="${comentario.autor.foto_url || '/assets/default-avatar.svg'}" alt="Foto de ${comentario.autor.nome}" class="w-10 h-10 rounded-full object-cover mt-1">
                 </a>
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
-                        <a href="#" class="font-bold hover:underline">${comentario.autor.nome}</a>
+                        <a href="${linkPerfilComentario}" class="font-bold hover:underline">${comentario.autor.nome}</a>
                         <span class="text-sm text-slate-500 dark:text-gray-400">· ${new Date(comentario.createdAt).toLocaleDateString('pt-BR')}</span>
                     </div>
                     <p class="mt-1 text-base break-words">${comentario.texto}</p>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     };
 
     const carregarPostEComentarios = async () => {

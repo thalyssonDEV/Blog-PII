@@ -92,7 +92,7 @@ router.get('/posts/:postId', authMiddleware, async (req: Request, res: Response)
         const post = await prisma.post.findUnique({
             where: { id: postId },
             include: {
-                autor: { // Inclui os dados do autor do post
+                autor: {
                     select: {
                         id: true,
                         nome: true,
@@ -102,8 +102,14 @@ router.get('/posts/:postId', authMiddleware, async (req: Request, res: Response)
                 comentarios: {
                     orderBy: { createdAt: 'asc' },
                     include: {
-                        autor: { // Para cada comentário, inclui os dados do autor
-                            select: { nome: true, foto_url: true }
+                        autor: {
+                            select: {
+                                // ✨ CORREÇÃO APLICADA AQUI ✨
+                                // Estávamos esquecendo de pedir o ID do autor do comentário.
+                                id: true,
+                                nome: true,
+                                foto_url: true
+                            }
                         }
                     }
                 }
