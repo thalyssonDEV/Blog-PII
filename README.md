@@ -314,7 +314,6 @@ Certifique-se de que todas as variáveis de ambiente necessárias estejam defini
 - `GCP_PROJECT_ID`
 
 
-
 ### Padrões de Código
 - Use TypeScript para todo o código backend
 - Siga a configuração do ESLint
@@ -322,8 +321,5 @@ Certifique-se de que todas as variáveis de ambiente necessárias estejam defini
 - Inclua tratamento de erro para todas as operações
 - Escreva mensagens de commit descritivas
 
-## Licença
-
-Este projeto está licenciado sob a Licença ISC. Veja o arquivo `package.json` para detalhes.
 
 
