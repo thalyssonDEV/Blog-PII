@@ -53,11 +53,11 @@ services:
     environment:
       # --- IMPORTANTE: CONFIGURE ESTAS VARIÁVEIS ---
       # O seu nome de domínio (ex: meublog.com)
-      - VIRTUAL_HOST=simplee.ddns.net
+      - VIRTUAL_HOST=simplee.zapto.org
       # A porta interna em que a sua aplicação Node.js está a rodar
       - VIRTUAL_PORT=8000
       # O domínio para o qual o Let's Encrypt deve gerar o certificado
-      - LETSENCRYPT_HOST=simplee.ddns.net
+      - LETSENCRYPT_HOST=simplee.zapto.org
       # O seu e-mail para receber notificações do Let's Encrypt (ex: sobre renovações)
       - LETSENCRYPT_EMAIL=contato.thalyssondel@gmail.com
 
