@@ -113,6 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        const btnEditarPerfil = document.getElementById('btn-editar-perfil');
+        if (btnEditarPerfil) {
+            btnEditarPerfil.addEventListener('click', (e) => {
+                e.preventDefault();
+                showToast('Funcionalidade em desenvolvimento!', 'error');
+            });
+        }
+
         if(btnConfirmPostDelete) {
             btnConfirmPostDelete.addEventListener('click', async () => {
                 const postId = btnConfirmPostDelete.dataset.postId;

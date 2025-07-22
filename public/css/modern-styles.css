@@ -73,3 +73,9 @@
         -webkit-line-clamp: 3;
     }
 }
+
+@layer components {
+  .future-feature:hover {
+    @apply cursor-not-allowed bg-transparent dark:bg-transparent opacity-60;
+  }
+}
