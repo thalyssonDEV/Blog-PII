@@ -1,4 +1,3 @@
-// 1. Validação das variáveis de ambiente
 import { env } from './config/env';
 import commentRoutes from './routes/commentRoutes';
 import path from 'path';
@@ -38,7 +37,7 @@ const startServer = async () => {
 
         // 3. SOMENTE se a conexão for bem-sucedida, inicia o servidor Express
         app.listen(PORT, () => {
-            console.log(`Servidor rodando na porta ${PORT}, Link para localhost: http://localhost:${PORT}/login.html`);
+            console.log(`Servidor rodando na porta ${PORT}, Link para LocalHost: http://localhost:${PORT}/login.html`);
         });
 
     } catch (error) {

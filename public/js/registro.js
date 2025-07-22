@@ -1,5 +1,3 @@
-// --- LÓGICA DO FORMULÁRIO (AGORA USANDO A FUNÇÃO showToast) ---
-
 const form = document.getElementById('registro-form');
 const fotoInputElement = document.getElementById('foto');
 const fotoPreviewElement = document.getElementById('foto-preview');
