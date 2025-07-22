@@ -332,7 +332,14 @@ Social-Network-PII/
 
 ## Schema do Banco de Dados
 
-### Tabela de Usuários
+### Diagrama Relacional
+
+<div align="center">
+  <img src="images/imagem_diagrama_bd.png" alt="Diagrama" width="800">
+  <p><em>Diagrama relacional do BD usado no sistema</em></p>
+</div>
+
+### Tabela de Usuário
 - `id` (Chave Primária)
 - `email` (Único)
 - `nome` (Nome de usuário)
@@ -340,14 +347,14 @@ Social-Network-PII/
 - `foto_url` (URL da imagem de perfil)
 - `createdAt` (Timestamp)
 
-### Tabela de Posts
+### Tabela de Post
 - `id` (Chave Primária)
 - `titulo` (Título do post do blog)
 - `conteudo` (Conteúdo do post do blog)
 - `autorId` (Chave Estrangeira para Usuários)
 - `createdAt` / `updatedAt` (Timestamps)
 
-### Tabela de Comentários
+### Tabela de Comentário
 - `id` (Chave Primária)
 - `texto` (Texto do comentário)
 - `autorId` (Chave Estrangeira para Usuários)
@@ -355,9 +362,9 @@ Social-Network-PII/
 - `createdAt` (Timestamp)
 
 ### Relacionamentos
-- Um-para-Muitos: Usuário → Posts do Blog
-- Um-para-Muitos: Usuário → Comentários
-- Um-para-Muitos: Post do Blog → Comentários
+- Zero-para-Muitos: Usuário → Posts do Blog
+- Zero-para-Muitos: Usuário → Comentários
+- Zero-para-Muitos: Post do Blog → Comentários
 - Exclusão em cascata para integridade dos dados
 
 ## Fluxo de Desenvolvimento
