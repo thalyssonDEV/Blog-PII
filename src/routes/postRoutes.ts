@@ -100,7 +100,7 @@ router.get('/posts/:postId', authMiddleware, async (req: Request, res: Response)
                     }
                 },
                 comentarios: {
-                    orderBy: { createdAt: 'asc' },
+                    orderBy: { createdAt: 'desc' },
                     include: {
                         autor: {
                             select: {
