@@ -31,18 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ titulo, conteudo })
                 });
 
-                const result = await response.json();
-
                 if (!response.ok) {
+                    const result = await response.json();
                     const errorMessage = result.erros ? result.erros[0].msg : result.mensagem;
-                    throw new Error(errorMessage);
+                    showToast(errorMessage, 'error');
+                } else {
+                    // --- ALTERAÇÃO AQUI ---
+                    // 1. Mostra a mensagem de sucesso
+                    showToast('Post publicado!', 'success');
+                    
+                    // 2. Aguarda um pouco antes de redirecionar para que o usuário veja a mensagem
+                    setTimeout(() => {
+                        window.location.href = '/home.html';
+                    }, 1500); // 1.5 segundos de espera
                 }
-                
-                localStorage.setItem('post-creation-success', result.mensagem || "Post criado com sucesso!");
-                window.location.href = '/home.html';
-
             } catch (error) {
-                showToast(error.message || 'Erro ao criar o post.');
+                showToast('Erro de conexão ao tentar publicar. Tente novamente.', 'error');
             }
         });
     }

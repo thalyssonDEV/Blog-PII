@@ -109,7 +109,6 @@ export class UserService {
 
 
     // Método privado para hashear a senha.
-
     private async hashPassword(senha: string): Promise<string> {
         const salt = await bcrypt.genSalt(10);
         return bcrypt.hash(senha, salt);

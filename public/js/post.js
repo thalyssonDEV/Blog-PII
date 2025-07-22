@@ -32,24 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderizarPost = (post) => {
         const dataPost = new Date(post.createdAt).toLocaleString('pt-BR', { dateStyle: 'long', timeStyle: 'short' });
         const username = post.autor.nome.toLowerCase().replace(/ /g, '_');
+
+        // Verifica se o perfil do autor do post é o do próprio usuário logado
+        const ehMeuPerfil = post.autor.id === meuUserId;
+        const linkPerfilAutor = ehMeuPerfil ? '/perfil.html' : `/outro_perfil.html?id=${post.autor.id}`;
         
         if (replyingToUser) {
             replyingToUser.textContent = `@${username}`;
         }
         
         postContainer.innerHTML = `
-            <div class="flex items-center gap-3">
-                <a href="/outro_perfil.html?id=${post.autor.id}">
-                    <img src="${post.autor.foto_url || '/assets/default-avatar.svg'}" alt="Foto de ${post.autor.nome}" class="w-12 h-12 rounded-full object-cover">
-                </a>
-                <div>
-                    <a href="/outro_perfil.html?id=${post.autor.id}" class="font-bold hover:underline">${post.autor.nome}</a>
-                    <p class="text-sm text-slate-500 dark:text-gray-400">@${username}</p>
-                </div>
+        <div class="flex items-center gap-3">
+            <a href="${linkPerfilAutor}">
+                <img src="${post.autor.foto_url || '/assets/default-avatar.svg'}" alt="Foto de ${post.autor.nome}" class="w-12 h-12 rounded-full object-cover">
+            </a>
+            <div>
+                <a href="${linkPerfilAutor}" class="font-bold hover:underline">${post.autor.nome}</a>
+                <p class="text-sm text-slate-500 dark:text-gray-400">@${username}</p>
             </div>
-            <h1 class="text-2xl lg:text-3xl font-extrabold my-4 text-slate-800 dark:text-gray-100 break-words">${post.titulo}</h1>
-            <p class="text-base lg:text-lg whitespace-pre-wrap leading-relaxed break-words">${post.conteudo}</p>
-            <p class="text-sm text-slate-500 dark:text-gray-400 mt-6 border-t border-slate-200 dark:border-gray-700 pt-4">${dataPost}</p>
+        </div>
+        <h1 class="text-2xl lg:text-3xl font-extrabold my-4 text-slate-800 dark:text-gray-100 break-words">${post.titulo}</h1>
+        <p class="text-base lg:text-lg whitespace-pre-wrap leading-relaxed break-words">${post.conteudo}</p>
+        <p class="text-sm text-slate-500 dark:text-gray-400 mt-6 border-t border-slate-200 dark:border-gray-700 pt-4">${dataPost}</p>
         `;
     };
 
@@ -71,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
                         <a href="${linkPerfilComentario}" class="font-bold hover:underline">${comentario.autor.nome}</a>
-                        <span class="text-sm text-slate-500 dark:text-gray-400">· ${new Date(comentario.createdAt).toLocaleDateString('pt-BR')}</span>
+                        <span class="text-sm text-slate-500 dark:text-gray-400">· ${new Date(comentario.createdAt).toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
                     <p class="mt-1 text-base break-words">${comentario.texto}</p>
                 </div>
