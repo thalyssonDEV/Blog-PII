@@ -21,7 +21,7 @@ Este projeto foi desenvolvido como projeto final da disciplina Programação par
 3. [Thalysson Delano Borges Ferreira](https://github.com/thalyssonDEV)
 
 ## Sumário
-
+- [Link do Video Explicativo](#link-do-video-explicativo)
 - [Principais Diferenciais](#principais-diferenciais)
 - [Funcionalidades](#funcionalidades)
   - [Funcionalidades Principais](#funcionalidades-principais)
@@ -64,8 +64,13 @@ Este projeto foi desenvolvido como projeto final da disciplina Programação par
   - [Gerenciamento do Banco de Dados](#gerenciamento-do-banco-de-dados)
   - [Scripts de Desenvolvimento](#scripts-de-desenvolvimento)
 
+## Link do Video Explicativo
 
-**Principais Diferenciais:**
+[Link Do Video](https://youtu.be/FdJXj8IN7xg?si=mUynHkpqoBzfwWnj)
+
+--- 
+
+## Principais Diferenciais:
 - Arquitetura em camadas com separação clara de responsabilidades
 - Sistema de autenticação JWT com tokens de curta duração
 - Upload de imagens otimizado com Google Cloud Storage
